@@ -272,8 +272,8 @@ class Dev(commands.Cog):
         botset [subcommand] [<setting>]
         Developers only'''
         desc = ""
-        desc += "`botset username`: change the username for the bot\n"
-        desc += "`botset pfp`: change the bot's profile picture to the one thee url spefcified\n"
+        desc += "`botset username`: Change the username from the bot.\n"
+        desc += "`botset pfp`: Change the bot's avatar with a specified URL.\n"
         # desc += "`botset <subcommand>`: \n"
         embed = discord.Embed(title='Subcommands for `botset`', description=desc)
         await ctx.send(embed=embed)
@@ -287,7 +287,7 @@ class Dev(commands.Cog):
         if name is None:
             return await ctx.send('Give me a name to change man')
         await ctx.bot.user.edit(username=name)
-        await ctx.send(f'Changed username from {oldname} to {name}.')
+        await ctx.send(f':label: Changed my username from {oldname} to {name}.')
 
     @botset.command()
     async def pfp(self, ctx, url: str = None):
@@ -299,14 +299,14 @@ class Dev(commands.Cog):
             try:
                 url = ctx.message.attachments[0]
             except IndexError:
-                return await ctx.send('You did not give me any image whatsoever.')
+                return await ctx.send(':x: Please provide an image or URL.')
 
         async with aiohttp.ClientSession() as session:
             r = await session.get(url=url)
             data = await r.read()
             await ctx.bot.user.edit(avatar=data)
             r.close()
-        await ctx.send('Changed pfp!')
+        await ctx.send(':label: Avatar changed!')
         
     @commands.group(invoke_without_command=True)
     async def devutils(self, ctx):
